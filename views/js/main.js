@@ -449,9 +449,9 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
-  function changePizzaSizes(size) {//document.querySelectorAll(".randomPizzaContainer")
+  function changePizzaSizes(size) {
     var mySelector = document.querySelectorAll(".randomPizzaContainer");
-    //all pizza will be the same size depending on the size selection
+    //all pizza will have one selected size
     var dx = determineDx(mySelector[0], size);
     var newwidth = (mySelector[0].offsetWidth + dx) + 'px';
     for (var i = 0; i < mySelector.length; i++) {
@@ -471,9 +471,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-var pizzasDiv = document.getElementById("randomPizzas");//the same div element will be appended
+//the same div element will be appended
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
- // var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -506,10 +506,19 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var aScroll = document.body.scrollTop / 1250;
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(aScroll + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var items = document.querySelectorAll(' .mover');
+  //5 different values of phase calculated outside the for loop and stored in an array.
+  var phase = [
+                  Math.sin(aScroll + (0 % 5)),
+                  Math.sin(aScroll + (1 % 5)),
+                  Math.sin(aScroll + (2 % 5)),
+                  Math.sin(aScroll + (3 % 5)),
+                  Math.sin(aScroll + (4 % 5))
+              ];
+
+  for (var i = 0, j = 0; i < items.length; i++, j++) {
+    //use of transform = tarnslateX() to update generated pizzas position.
+    items[i].style.transform = "translateX(" + items[i].basicLeft * phase[j%5] + "px)";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -529,8 +538,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-
-  for (var i = 0; i < 200; i++) {
+//decrease number of generated pizzas
+  for (var i = 0; i < 50; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
