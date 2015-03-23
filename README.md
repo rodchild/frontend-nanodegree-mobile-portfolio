@@ -74,5 +74,7 @@ Feeling uninspired by the portfolio? Here's a list of cool portfolios I found af
 ####Steps to optimize the code
 
 updatePositions() (Line 510) - 5 different values of phase calculated outside the for loop and stored in an array.
+
 Line 519 - use of transform = tarnslateX() to update generated pizzas position.
+
 Line 540 - Descreased amount of generated pizzas
